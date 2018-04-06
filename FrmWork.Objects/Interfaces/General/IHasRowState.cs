@@ -1,4 +1,5 @@
-﻿using FrmWork.Objects.Models;
+﻿using FrmWork.Objects.Entities;
+using FrmWork.Objects.Models;
 
 namespace FrmWork.Objects.Interfaces.General
 {

@@ -1,15 +1,14 @@
-﻿using FrmWork.Interfaces.ViewModelBases;
-using System.Linq;
+﻿using System.Linq;
 
-namespace FrmWork.Interfaces.Objects.ViewModelBases
+namespace FrmWork.Objects.Interfaces.ViewModels
 {
     /// <summary>
     /// Use for search view models
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    public interface IHasFilterPanelViewModel<TModel> : IViewModel
+    /// <typeparam name="TEntity"></typeparam>
+    public interface IHasFilterPanelViewModel<TEntity> : IViewModel
 
     {
-        IQueryable<TModel> GetWhereQuery(IQueryable<TModel> query);
+        IQueryable<TEntity> GetWhereQuery(IQueryable<TEntity> query);
     }
 }

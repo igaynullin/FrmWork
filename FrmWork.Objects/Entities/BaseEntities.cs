@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FrmWork.Objects.Interfaces.Entities;
 using FrmWork.Objects.Interfaces.General;
-using FrmWork.Objects.Interfaces.Models;
 
-namespace FrmWork.Objects.Models
+namespace FrmWork.Objects.Entities
 {
-    public abstract class BaseModel<TId, TUser, TDate> : IHasId<TId>, IHasAudit<TUser, TDate>, IHasLocalizationName, IModel
+    public abstract class BaseEntity<TId, TUser, TDate> : IHasId<TId>, IHasAudit<TUser, TDate>, IHasLocalizationName, IEntity
     {
         public virtual TUser Creator { get; set; }
         public virtual TDate CreatedAt { get; set; }

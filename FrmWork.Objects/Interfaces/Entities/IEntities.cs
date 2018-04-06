@@ -1,26 +1,26 @@
 ﻿using FrmWork.Objects.Interfaces.General;
 
-namespace FrmWork.Objects.Interfaces.Models
+namespace FrmWork.Objects.Interfaces.Entities
 {
-    public interface IModel<TId, TUser, TDate, TRowState, TLocalization, TOwner> :
+    public interface IEntity<TId, TUser, TDate, TRowState, TLocalization, TOwner> :
           IHasId<TId>
         , IHasAudit<TUser, TDate>
         , IHasName
         , IHasRowState<TRowState>
         , IHasParent<TId>
         , IHasLocalizationId<TLocalization>
-        , IHasOwner<TOwner>, IModel
+        , IHasOwner<TOwner>, IEntity
     {
     }
 
-    public interface IModel<TId, TUser, TDate> :
+    public interface IEntity<TId, TUser, TDate> :
         IHasId<TId>
         , IHasAudit<TUser, TDate>
-        , IHasName, IModel
+        , IHasName, IEntity
     {
     }
 
-    public interface IModel
+    public interface IEntity
 
     {
     }

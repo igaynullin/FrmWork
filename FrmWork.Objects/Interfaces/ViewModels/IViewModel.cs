@@ -1,4 +1,4 @@
-﻿namespace FrmWork.Interfaces.ViewModelBases
+﻿namespace FrmWork.Objects.Interfaces.ViewModels
 {
     public interface IViewModel
     {

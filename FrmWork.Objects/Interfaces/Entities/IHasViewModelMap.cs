@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FrmWork.Objects.Interfaces.Models
+namespace FrmWork.Objects.Interfaces.Entities
 
 {
     public interface IHasViewModelMap<TEntity, TViewModel>

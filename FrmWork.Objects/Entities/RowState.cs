@@ -1,4 +1,4 @@
-﻿namespace FrmWork.Objects.Models
+﻿namespace FrmWork.Objects.Entities
 {
     public enum RowState
     {

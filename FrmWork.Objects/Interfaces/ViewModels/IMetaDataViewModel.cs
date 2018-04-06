@@ -1,6 +1,4 @@
-﻿using FrmWork.Interfaces.ViewModelBases;
-
-namespace FrmWork.Objects.Interfaces.ViewModels
+﻿namespace FrmWork.Objects.Interfaces.ViewModels
 {
     public interface IMetaDataViewModel<TRecource>
     {
