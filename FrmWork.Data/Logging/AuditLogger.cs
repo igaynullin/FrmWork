@@ -32,7 +32,7 @@ namespace FrmWork.Data.Logging
             _db = db;
             _principal = principal;
             _entities = new List<LoggableEntity>();
-            _db.ChangeTracker.AutoDetectChangesEnabled = false;
+            // _db.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public void Log(IEnumerable<EntityEntry<IHasId<long>>> entries)

@@ -20,7 +20,6 @@ namespace FrmWork.Data.Logging
 
         static LoggableEntity()
         {
-            //IdName = typeof(IHasId<long>).GetProperties().Single(property => property.IsDefined(typeof(KeyAttribute), false)).Name;
         }
 
         public LoggableEntity(EntityEntry<IHasId<long>> entry)

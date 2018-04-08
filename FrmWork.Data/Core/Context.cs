@@ -1,4 +1,8 @@
 ﻿using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using FrmWork.Data.Logging;
+using FrmWork.Objects.Interfaces.General;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,15 +29,18 @@ namespace FrmWork.Data.Core
 
         protected IConfiguration _configuration { get; }
         protected IPrincipal _principal { get; }
+        protected IAuditLogger _auditor { get; }
 
         static DbCtx()
         {
             //  ObjectMapper.MapObjects();
         }
 
-        public DbCtx(IConfiguration configuration, IPrincipal principal)
+        public DbCtx(IConfiguration configuration, IPrincipal principal, IAuditLogger auditor = null)
         {
             _configuration = configuration;
+            _principal = principal;
+            _auditor = auditor;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -52,6 +59,21 @@ namespace FrmWork.Data.Core
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+        }
+
+        public override int SaveChanges()
+        {
+            _auditor?.Log(this.ChangeTracker.Entries<IHasId<long>>());
+
+            this.SaveChanges();
+
+            _auditor?.Save();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.Run(() => this.SaveChanges(), cancellationToken);
         }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
