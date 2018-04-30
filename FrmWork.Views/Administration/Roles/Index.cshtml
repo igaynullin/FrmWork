@@ -1,0 +1,32 @@
+﻿@using FrmWork.Mvc.Controls.Grid.Core
+@using FrmWork.ViewModels.Administration.Roles
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model FrmWork.ViewModels.Shared.ListViewModel<IndexViewModel, IndexFilterViewModel>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>Text</h4>
+    </div>
+    <div class="panel-body">
+        <h4>Text</h4>
+        @Html.Partial("_IndexFilterPanel", Model.FilterViewModel)
+
+        <div class="" id="@Model.AjaxOptions.UpdateTargetId">
+
+            @Html.Partial("_Index", Model.Data)
+
+            @Html.PagedListPager(
+                     Model.PagedList
+                     , PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(Model.AjaxOptions))
+        </div>
+    </div>
+</div>
+@*
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+            await Html.RenderPartialAsync("_AjaxScriptsPartial");
+
+        }
+    }*@

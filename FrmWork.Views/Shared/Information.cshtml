@@ -1,0 +1,33 @@
+﻿@model Zapchast.Framework.Interfaces.IHas.IHasResult
+@using Zapchast.Framework.Enums
+@using res = Zapchast.Framework.Resources;
+
+@if (Model?.Message != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+
+            @if (Model.State == States.Error)
+            {
+                <div class="alert alert-danger">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    @Model.Message
+                </div>
+            }
+            else if (Model.State == States.Info)
+            {
+                <div class="alert alert-info">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    @Model.Message
+                </div>
+            }
+
+
+        </div>
+    </div>
+
+
+}
+
+
+

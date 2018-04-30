@@ -1,42 +1,45 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Reflection;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using FrmWork.Data.Logging;
+using FrmWork.Data.AuditEntityLogger;
 using FrmWork.Objects.Interfaces.General;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using customEntities = FrmWork.Objects.Entities;
+using FrmWork.Objects.Entities;
+using enitityTypeConfigurations = FrmWork.Data.EntityTypeConfigurations;
 
 namespace FrmWork.Data.Core
 {
     public class DbCtx : IdentityDbContext<
-          customEntities.User
-        , customEntities.Role
+          User
+        , Role
         , long
-        , customEntities.UserClaim
-        , customEntities.UserRole
-        , customEntities.UserLogin
-        , customEntities.RoleClaim
-        , customEntities.UserToken>
+        , UserClaim
+        , UserRole
+        , UserLogin
+        , RoleClaim
+        , UserToken>
 
     {
         #region System
 
-        protected Microsoft.EntityFrameworkCore.DbSet<customEntities.AuditLog> AuditLog { get; set; }
+        protected Microsoft.EntityFrameworkCore.DbSet<AuditEntityLog> AuditEntityLog { get; set; }
 
         #endregion System
 
         protected IConfiguration _configuration { get; }
         protected IPrincipal _principal { get; }
-        protected IAuditLogger _auditor { get; }
+        protected IAuditEntityLogger _auditor { get; }
 
         static DbCtx()
         {
             //  ObjectMapper.MapObjects();
         }
 
-        public DbCtx(IConfiguration configuration, IPrincipal principal, IAuditLogger auditor = null)
+        public DbCtx(IConfiguration configuration, IPrincipal principal, IAuditEntityLogger auditor = null)
         {
             _configuration = configuration;
             _principal = principal;
@@ -54,6 +57,15 @@ namespace FrmWork.Data.Core
             //foreach (IMutableForeignKey key in builder.Model.GetEntityTypes().SelectMany(entity => entity.GetForeignKeys()))
             //    key.DeleteBehavior = DeleteBehavior.Restrict;
             base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new enitityTypeConfigurations.AuditEntityLogTypeConfiguration());
+            builder.ApplyConfiguration(new enitityTypeConfigurations.RoleTypeConfiguration());
+            builder.ApplyConfiguration(new enitityTypeConfigurations.RoleClaimTypeConfiguration());
+            builder.ApplyConfiguration(new enitityTypeConfigurations.UserTypeConfiguration());
+            builder.ApplyConfiguration(new enitityTypeConfigurations.UserClaimTypeConfiguration());
+            builder.ApplyConfiguration(new enitityTypeConfigurations.UserLoginTypeConfiguration());
+            builder.ApplyConfiguration(new enitityTypeConfigurations.UserRoleTypeConfiguration());
+            builder.ApplyConfiguration(new enitityTypeConfigurations.UserTokenTypeConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

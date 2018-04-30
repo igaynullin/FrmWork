@@ -1,0 +1,23 @@
+﻿@using Zapchast.WebMvc.ViewModels.Card
+@{
+    if (!(ViewData["card"] is Card card))
+    {
+      card   = new Card(this.Context.Session);
+
+    }
+}
+
+
+    <a asp-controller="Card" asp-action="Index">
+        <span class="badge badge-danger">
+            <span class="glyphicon glyphicon-shopping-cart">
+
+            </span>
+            :@card.Goods.Sum(e=>e.Quantity).ToString()
+            <span class="glyphicon glyphicon-rub">
+
+            </span>
+            :@card.Goods.Select(e=>e.Quantity* e.AveragePrice).Sum(e=>e.Value ).ToString("N")
+
+        </span>
+    </a>

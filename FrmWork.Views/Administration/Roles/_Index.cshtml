@@ -1,0 +1,30 @@
+﻿@*@using FrmWork.Mvc.Controls.Grid.Core
+    @model FrmWork.ViewModels.Administration.Roles.IndexViewModel
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>@res.Content.txt_Goods</h4>
+        </div>
+        <div class="panel-body">
+            <h4>@res.Content.txt_PanelSearch</h4>
+            @Html.Partial("_FilterPanelPartial", Model.FilterPanelModel)
+
+            <div class="" id="@Model.FilterPanelModel.AjaxAttributes.data_ajax_update.Replace("#", "")">
+
+                @Html.Partial("_IndexPartial", Model.Data)
+
+                @Html.PagedListPager(
+                    IPa
+                    , PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(Model.AjaxOptions))
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+            await Html.RenderPartialAsync("_AjaxScriptsPartial");
+
+        }
+    }*@

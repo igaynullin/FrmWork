@@ -56,14 +56,19 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             return li;
         }
 
+        private static void AddCssClasses(TagBuilder a, PagedListRenderOptionsBase options)
+        {
+            foreach (var c in options.PageClasses ?? Enumerable.Empty<string>())
+                a.AddCssClass(c);
+        }
+
         private static TagBuilder First(IPagedList list, string urlFormat, PagedListRenderOptionsBase options)
         {
             const int targetPageNumber = 1;
             var first = new TagBuilder("a");
 
             first.InnerHtml.AppendHtml(string.Format(options.LinkToFirstPageFormat, targetPageNumber));
-            foreach (var c in options.PageClasses ?? Enumerable.Empty<string>())
-                first.AddCssClass(c);
+            AddCssClasses(first, options);
 
             if (list.IsFirstPage)
                 return WrapInListItem(first, options, "PagedList-skipToFirst", "disabled");
@@ -79,8 +84,7 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             previous.InnerHtml.AppendHtml(string.Format(options.LinkToPreviousPageFormat, targetPageNumber));
             previous.Attributes["rel"] = "prev";
 
-            foreach (var c in options.PageClasses ?? Enumerable.Empty<string>())
-                previous.AddCssClass(c);
+            AddCssClasses(previous, options);
 
             if (!list.HasPreviousPage)
                 return WrapInListItem(previous, options, options.PreviousElementClass, "disabled");
@@ -97,8 +101,7 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             var page = i == list.PageNumber ? new TagBuilder("span") : new TagBuilder("a");
             SetInnerText(page, format(targetPageNumber));
 
-            foreach (var c in options.PageClasses ?? Enumerable.Empty<string>())
-                page.AddCssClass(c);
+            AddCssClasses(page, options);
 
             if (i == list.PageNumber)
                 return WrapInListItem(page, options, options.ActiveLiElementClass);
@@ -115,8 +118,7 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             next.InnerHtml.AppendHtml(string.Format(options.LinkToNextPageFormat, targetPageNumber));
             next.Attributes["rel"] = "next";
 
-            foreach (var c in options.PageClasses ?? Enumerable.Empty<string>())
-                next.AddCssClass(c);
+            AddCssClasses(next, options);
 
             if (!list.HasNextPage)
                 return WrapInListItem(next, options, options.NextElementClass, "disabled");
@@ -130,8 +132,7 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             var targetPageNumber = list.PageCount;
             var last = new TagBuilder("a");
             last.InnerHtml.AppendHtml(string.Format(options.LinkToLastPageFormat, targetPageNumber));
-            foreach (var c in options.PageClasses ?? Enumerable.Empty<string>())
-                last.AddCssClass(c);
+            AddCssClasses(last, options);
 
             if (list.IsLastPage)
                 return WrapInListItem(last, options, "PagedList-skipToLast", "disabled");
@@ -183,7 +184,9 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             str
                 .Append(controller).Append("/")
                 .Append(action)
-                .Append("?page={0}");
+                .Append("?")
+                .Append(nameof(IPagedList.PageNumber))
+                .Append("={0}");
 
             if (routeValues != null)
             {
@@ -227,6 +230,7 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             , string area
             , string controller
             , string action
+            , int pageNumber
             , object routeValues
             , PagedListRenderOptionsBase options)
         {
@@ -342,13 +346,123 @@ namespace FrmWork.Mvc.Controls.Grid.Core
             outerDiv.InnerHtml.AppendHtml(TagBuilderToString(ul));
             return new HtmlString(TagBuilderToString(outerDiv));
         }
-    }
 
-    internal enum ButtonType
-    {
-        First,
-        Last,
-        Next,
-        Previous
+        public static HtmlString PagedListPager(this IHtmlHelper html
+          , IPagedList list
+
+          , PagedListRenderOptionsBase options)
+        {
+            if (options == null)
+                options = new PagedListRenderOptions();
+
+            if (options.Display == PagedListDisplayMode.Never || (options.Display == PagedListDisplayMode.IfNeeded && list.PageCount <= 1))
+                return null;
+
+            var listItemLinks = new List<TagBuilder>();
+            //
+            var href = BuildUrlFormat(list.Area, list.Controller, list.Action, list.RouteValues);
+            //calculate start and end of range of page numbers
+            var firstPageToDisplay = 1;
+            var lastPageToDisplay = list.PageCount;
+            var pageNumbersToDisplay = lastPageToDisplay;
+            if (options.MaximumPageNumbersToDisplay.HasValue && list.PageCount > options.MaximumPageNumbersToDisplay)
+            {
+                // cannot fit all pages into pager
+                var maxPageNumbersToDisplay = options.MaximumPageNumbersToDisplay.Value;
+                firstPageToDisplay = list.PageNumber - maxPageNumbersToDisplay / 2;
+                if (firstPageToDisplay < 1)
+                    firstPageToDisplay = 1;
+                pageNumbersToDisplay = maxPageNumbersToDisplay;
+                lastPageToDisplay = firstPageToDisplay + pageNumbersToDisplay - 1;
+                if (lastPageToDisplay > list.PageCount)
+                    firstPageToDisplay = list.PageCount - maxPageNumbersToDisplay + 1;
+            }
+
+            //first
+            if (options.DisplayLinkToFirstPage == PagedListDisplayMode.Always || (options.DisplayLinkToFirstPage == PagedListDisplayMode.IfNeeded && firstPageToDisplay > 1))
+                listItemLinks.Add(First(list, href, options));
+
+            //previous
+            if (options.DisplayLinkToPreviousPage == PagedListDisplayMode.Always || (options.DisplayLinkToPreviousPage == PagedListDisplayMode.IfNeeded && !list.IsFirstPage))
+                listItemLinks.Add(Previous(list, href, options));
+
+            //text
+            if (options.DisplayPageCountAndCurrentLocation)
+                listItemLinks.Add(PageCountAndLocationText(list, options));
+
+            //text
+            if (options.DisplayItemSliceAndTotal)
+                listItemLinks.Add(ItemSliceAndTotalText(list, options));
+
+            //page
+            if (options.DisplayLinkToIndividualPages)
+            {
+                //if there are previous page numbers not displayed, show an ellipsis
+                if (options.DisplayEllipsesWhenNotShowingAllPageNumbers && firstPageToDisplay > 1)
+                    listItemLinks.Add(Ellipses(options));
+
+                foreach (var i in Enumerable.Range(firstPageToDisplay, pageNumbersToDisplay))
+                {
+                    //show delimiter between page numbers
+                    if (i > firstPageToDisplay && !string.IsNullOrWhiteSpace(options.DelimiterBetweenPageNumbers))
+                        listItemLinks.Add(WrapInListItem(options.DelimiterBetweenPageNumbers));
+
+                    //show page number link
+                    listItemLinks.Add(Page(i, list, href, options));
+                }
+
+                //if there are subsequent page numbers not displayed, show an ellipsis
+                if (options.DisplayEllipsesWhenNotShowingAllPageNumbers && (firstPageToDisplay + pageNumbersToDisplay - 1) < list.PageCount)
+                    listItemLinks.Add(Ellipses(options));
+            }
+
+            //next
+            if (options.DisplayLinkToNextPage == PagedListDisplayMode.Always || (options.DisplayLinkToNextPage == PagedListDisplayMode.IfNeeded && !list.IsLastPage))
+                listItemLinks.Add(Next(list, href, options));
+
+            //last
+            if (options.DisplayLinkToLastPage == PagedListDisplayMode.Always || (options.DisplayLinkToLastPage == PagedListDisplayMode.IfNeeded && lastPageToDisplay < list.PageCount))
+                listItemLinks.Add(Last(list, href, options));
+
+            if (listItemLinks.Any())
+            {
+                //append class to first item in list?
+                if (!string.IsNullOrWhiteSpace(options.ClassToApplyToFirstListItemInPager))
+                    listItemLinks.First().AddCssClass(options.ClassToApplyToFirstListItemInPager);
+
+                //append class to last item in list?
+                if (!string.IsNullOrWhiteSpace(options.ClassToApplyToLastListItemInPager))
+                    listItemLinks.Last().AddCssClass(options.ClassToApplyToLastListItemInPager);
+
+                //append classes to all list item links
+                foreach (var li in listItemLinks)
+                    foreach (var c in options.LiElementClasses ?? Enumerable.Empty<string>())
+                        li.AddCssClass(c);
+            }
+
+            //collapse all of the list items into one big string
+            var listItemLinksString = listItemLinks.Aggregate(
+                new StringBuilder(),
+                (sb, listItem) => sb.Append(TagBuilderToString(listItem)),
+                sb => sb.ToString()
+                );
+
+            var ul = new TagBuilder("ul");
+            ul.InnerHtml.AppendHtml(listItemLinksString);
+            foreach (var c in options.UlElementClasses ?? Enumerable.Empty<string>())
+                ul.AddCssClass(c);
+
+            if (options.UlElementattributes != null)
+            {
+                foreach (var c in options.UlElementattributes)
+                    ul.MergeAttribute(c.Key, c.Value);
+            }
+
+            var outerDiv = new TagBuilder("div");
+            foreach (var c in options.ContainerDivClasses ?? Enumerable.Empty<string>())
+                outerDiv.AddCssClass(c);
+            outerDiv.InnerHtml.AppendHtml(TagBuilderToString(ul));
+            return new HtmlString(TagBuilderToString(outerDiv));
+        }
     }
 }

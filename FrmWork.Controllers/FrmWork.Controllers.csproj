@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FrmWork.Data\FrmWork.Data.csproj" />
     <ProjectReference Include="..\FrmWork.Objects\FrmWork.Objects.csproj" />
+    <ProjectReference Include="..\FrmWork.ViewModels\FrmWork.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +24,10 @@
     <Compile Update="BaseControllers.cs">
       <SubType>Component</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Administation\Accounts\" />
   </ItemGroup>
 
 </Project>

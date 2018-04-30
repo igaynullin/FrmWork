@@ -28,6 +28,10 @@
             IsLastPage = pagedList.IsLastPage;
             FirstItemOnPage = pagedList.FirstItemOnPage;
             LastItemOnPage = pagedList.LastItemOnPage;
+            Area = pagedList.Area;
+            Controller = pagedList.Controller;
+            Action = pagedList.Action;
+            RouteValues = pagedList.RouteValues;
         }
 
         #region IPagedList Members
@@ -111,6 +115,12 @@
         /// 	One-based index of the last item in the paged subset.
         /// </value>
         public int LastItemOnPage { get; protected set; }
+
+        public string Area { get; set; }
+        public string Action { get; set; }
+        public string Controller { get; set; }
+
+        public object RouteValues { get; set; }
 
         #endregion IPagedList Members
     }

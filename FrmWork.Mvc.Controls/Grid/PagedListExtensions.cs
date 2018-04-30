@@ -75,20 +75,19 @@ namespace FrmWork.Mvc.Controls.Grid
             return await ToPagedListAsync(superset.AsQueryable(), pageNumber ?? 1, pageSize);
         }
 
-        public static IPagedList<TEntity> GetPaged<TEntity>(this IQueryable<TEntity> query
-            , IHasFilter<TEntity> filterPanel, IPagedList pagerOptions, string sort) where TEntity : class, IHasId<long>
+        public static IPagedList<TEntity> GetPaged<TEntity>(this IQueryable<TEntity> query, IHasFilter<TEntity> filterPanel, string sort = "Id", int pageNumber = 1, int pageSize = 20) where TEntity : class, IHasId<long>
         {
             if (filterPanel != null)
             {
                 query = filterPanel.GetWhereQuery(query);
             }
-            var result = query.AsNoTracking().OrderByDescending(e => e.Id).ToPagedList(pagerOptions.PageNumber, pagerOptions.PageSize);
+            var result = query.AsNoTracking().OrderByDescending(e => sort).ToPagedList(pageNumber, pageSize);
             //pagerOptions.Map(result);
             return result;
         }
 
         public static IPagedList<TEntity> GetPaged<TEntity>(this IQueryable<TEntity> query
-            , IHasFilter<TEntity> filterPanel, IPagedList pagerOptions, string sort, params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : class, IHasId<long>
+            , IHasFilter<TEntity> filterPanel, IPagedList pagerOptions, string sort = "Id", int pageNumber = 1, int pageSize = 20, params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : class, IHasId<long>
         {
             query = includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));

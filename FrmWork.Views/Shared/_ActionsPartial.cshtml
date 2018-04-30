@@ -1,0 +1,16 @@
+﻿@using res = Zapchast.Framework.Resources;
+@using Zapchast.WebMvc.Html;
+@addTagHelper "*, Zapchast.WebMvc.Html"
+@model Zapchast.Framework.Models.Actions
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        @res.Content.txt_Actions
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+
+        <li><a asp-data-ajax="@Model.Edit.AjaxAttributes" asp-action="@Model.Edit.ActionName" asp-controller="@Model.Edit.ControllerName" asp-route-id="@Model.Id" class="dropdown">@Model.Edit.DisplayName</a></li>
+        <li><a asp-action="@Model.Details.ActionName" asp-controller="@Model.Details.ControllerName" asp-route-id="@Model.Id" asp-data-ajax="@Model.Details.AjaxAttributes" class="dropdown">@Model.Details.DisplayName</a></li>
+        <li><a asp-action="@Model.Delete.ActionName" asp-controller="@Model.Delete.ControllerName" asp-route-id="@Model.Id" asp-data-ajax="@Model.Delete.AjaxAttributes" class="dropdown">@Model.Delete.DisplayName</a></li>
+    </ul>
+</div>

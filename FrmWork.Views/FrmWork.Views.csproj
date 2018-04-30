@@ -4,4 +4,17 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FrmWork.Mvc.Controls\FrmWork.Mvc.Controls.csproj" />
+    <ProjectReference Include="..\FrmWork.ViewModels\FrmWork.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>

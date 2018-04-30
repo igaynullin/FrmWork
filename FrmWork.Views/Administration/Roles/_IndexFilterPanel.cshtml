@@ -1,0 +1,23 @@
+﻿@using FrmWork.ViewModels.Administration.Roles
+
+@model IndexFilterViewModel
+
+<div>
+    <form class="form" action="@Model.AjaxOptions.Url" @Model.AjaxOptions.HtmlAttributesToString()>
+
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-offset-11 col-xs-offset-10">
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="@res.txt_Search" />
+            </div>
+        </div>
+    </form>
+</div>

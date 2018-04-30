@@ -1,0 +1,28 @@
+﻿@using res = Zapchast.Framework.Resources;
+
+<div class="modal  fade" id="processing-modal" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="text-center">
+                    <h4>@res.Content.txt_Loading...</h4>
+
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img width="80" height="80" alt="" class="" src="~/images/gif-load.gif" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function hideProcessingModal() {
+        $('#processing-modal').modal('hide');
+    }
+    function showProcessingModal() {
+        $('#processing-modal').modal('show');
+    }
+</script>

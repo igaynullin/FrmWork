@@ -1,0 +1,37 @@
+﻿@model Zapchast.Framework.Models.Paginator;
+@using X.PagedList.Mvc.Core
+@using Zapchast.WebMvc.Html
+@{
+    var link = CustomActionExtention.Route(Model.ActionName,Model.ControllerName,"", Model.RouteValues);
+}
+
+@*@PagedList.Pager(actionName: Model.ActionName, controllerName: Model.ControllerName, areaName: "",
+    routeValues: Model.RouteValues,
+    ajaxAttributes: new
+    {
+        Model.AjaxAttributes.data_ajax,
+        Model.AjaxAttributes.data_ajax_loading,
+        Model.AjaxAttributes.data_ajax_update,
+        Model.AjaxAttributes.data_ajax_method,
+        Model.AjaxAttributes.data_ajax_mode,
+        Model.AjaxAttributes.data_ajax_begin,
+        Model.AjaxAttributes.data_ajax_complete
+
+    },
+    pagerOptions: Model.PagerOptions)*@
+@Html.PagedListPager(
+    Model.PagedList
+    , page =>
+    {
+        return string.Format(link,"PageNumber",page);    
+    }, PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing
+        (
+            new AjaxOptions()
+            {
+                HttpMethod = Model.AjaxAttributes.data_ajax_method,
+                UpdateTargetId = Model.AjaxAttributes.data_ajax_update,
+                LoadingElementId = Model.AjaxAttributes.data_ajax_loading,
+                OnBegin = Model.AjaxAttributes.data_ajax_begin,
+
+                OnComplete = Model.AjaxAttributes.data_ajax_complete
+            }))

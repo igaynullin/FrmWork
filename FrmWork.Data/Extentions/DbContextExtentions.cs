@@ -16,7 +16,7 @@ namespace FrmWork.Data.Extentions
                 var modifiedEntries = db.ChangeTracker.Entries()
                .Where(x => x.Entity is IHasAudit<string, DateTime?> && (x.State == EntityState.Added || x.State == EntityState.Modified));
                 var username = principal != null ? principal.Identity.Name : "anonymous";
-                DateTime now = DateTime.UtcNow;
+                var now = DateTime.UtcNow;
                 foreach (var entry in modifiedEntries)
                 {
                     var entity = (IHasAudit<string, DateTime?>)entry.Entity;

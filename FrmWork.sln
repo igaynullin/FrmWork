@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrmWork.Resources", "FrmWor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrmWork.Mvc.Controls", "FrmWork.Mvc.Controls\FrmWork.Mvc.Controls.csproj", "{EFA1C873-9304-4166-A6B6-47625FA7ED9E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrmWork.ViewModels", "FrmWork.ViewModels\FrmWork.ViewModels.csproj", "{785B220D-A0D9-49D2-B395-B3435BE1512C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrmWork.WebMvc", "FrmWork.WebMvc\FrmWork.WebMvc.csproj", "{FDC4988F-4408-4129-B3D6-F5B15BAEC0A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{EFA1C873-9304-4166-A6B6-47625FA7ED9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFA1C873-9304-4166-A6B6-47625FA7ED9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFA1C873-9304-4166-A6B6-47625FA7ED9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{785B220D-A0D9-49D2-B395-B3435BE1512C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{785B220D-A0D9-49D2-B395-B3435BE1512C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{785B220D-A0D9-49D2-B395-B3435BE1512C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{785B220D-A0D9-49D2-B395-B3435BE1512C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC4988F-4408-4129-B3D6-F5B15BAEC0A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC4988F-4408-4129-B3D6-F5B15BAEC0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC4988F-4408-4129-B3D6-F5B15BAEC0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC4988F-4408-4129-B3D6-F5B15BAEC0A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

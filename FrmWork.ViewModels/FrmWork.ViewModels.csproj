@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Administration\Roles\RoleViewModels.cs~RF10e3151b.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FrmWork.Mvc.Controls\FrmWork.Mvc.Controls.csproj" />
+    <ProjectReference Include="..\FrmWork.Objects\FrmWork.Objects.csproj" />
+    <ProjectReference Include="..\FrmWork.Resources\FrmWork.Resources.csproj" />
+  </ItemGroup>
+
+</Project>

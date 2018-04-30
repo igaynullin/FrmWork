@@ -1,0 +1,40 @@
+﻿@using Zapchast.WebMvc.Html
+@{
+    var index = ViewData["index"];
+}
+
+@model Zapchast.WebMvc.ViewModels.Import.Range
+   
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.StartRange)
+                    @Html.TextBoxFor(m => m.StartRange, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.StartRange, null, new {@class = "text-danger"})
+
+                    @*<label asp-for="StartRange" class="control-label"></label>
+                <input asp-for="StartRange" class="form-control"/>
+                <span asp-validation-for="StartRange" class="text-danger"></span>*@
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EndRange)
+                    @Html.TextBoxFor(m => m.EndRange, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.EndRange, null, new {@class = "text-danger"})
+                    @*<label asp-for="EndRange" class="control-label"></label>
+                <input asp-for="EndRange" class="form-control"/>
+                <span asp-validation-for="EndRange" class="text-danger"></span>*@
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @*<button class="btn btn-danger" onclick="javascript:removeRange(this);">Убрать <span class="glyphicon glyphicon-trash"></span></button>*@
+                </div>
+
+            </div>
+        </div>
+
+   
+

@@ -1,9 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace FrmWork.Mvc.Controls.Grid.Core
 {
     public class AjaxOptions
     {
+        public AjaxOptions()
+        {
+            LoadingElementId = "processing-modal";
+            OnBegin = "showProcessingModal";
+            OnSuccess = "hideProcessingModal";
+        }
+
         public virtual IEnumerable<HtmlAttribute> ToUnobtrusiveHtmlAttributes()
         {
             var attrs = new List<HtmlAttribute>
@@ -74,6 +82,17 @@ namespace FrmWork.Mvc.Controls.Grid.Core
         public string OnSuccess { get; set; }
         public string Url { get; set; }
         public bool AllowCache { get; set; }
+
+        public string HtmlAttributesToString()
+        {
+            var result = new StringBuilder();
+
+            foreach (var htmlAttribute in this.ToUnobtrusiveHtmlAttributes())
+            {
+                result.AppendFormat("{0}=\"{1}\" ", htmlAttribute.Key, htmlAttribute.Value);
+            }
+            return result.ToString();
+        }
     }
 
     public enum InsertionMode

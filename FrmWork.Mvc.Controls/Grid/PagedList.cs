@@ -68,7 +68,7 @@ namespace FrmWork.Mvc.Controls.Grid
         /// <param name="pageSize">The maximum size of any individual subset.</param>
         /// <exception cref="ArgumentOutOfRangeException">The specified index cannot be less than zero.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The specified page size cannot be less than one.</exception>
-        public PagedList(IQueryable<T> superset, int pageNumber, int pageSize)
+        public PagedList(IQueryable<T> superset, int pageNumber = 1, int pageSize = 20)
             : base(pageNumber, pageSize, superset?.Count() ?? 0)
         {
             if (TotalItemCount > 0)
@@ -88,7 +88,7 @@ namespace FrmWork.Mvc.Controls.Grid
         /// <param name="pageSize">The maximum size of any individual subset.</param>
         /// <exception cref="ArgumentOutOfRangeException">The specified index cannot be less than zero.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The specified page size cannot be less than one.</exception>
-        public PagedList(IEnumerable<T> superset, int pageNumber, int pageSize)
+        public PagedList(IEnumerable<T> superset, int pageNumber = 1, int pageSize = 20)
             : this(superset.AsQueryable<T>(), pageNumber, pageSize)
         {
         }

@@ -1,0 +1,25 @@
+﻿@using res = Zapchast.Framework.Resources
+@model Zapchast.Framework.Models.FilterPanel
+<div id="@Model.FilterPanelID" class="">
+    <form class="form"
+          asp-action="@Model.ActionName"
+          asp-controller="@Model.ControllerName"
+          data-ajax="@Model.AjaxAttributes.data_ajax"
+          data-ajax-method="@Model.AjaxAttributes.data_ajax_method"
+          data-ajax-update="#@Model.AjaxAttributes.data_ajax_update"
+          data-ajax-loading="@Model.AjaxAttributes.data_ajax_loading"
+          data-ajax-complete = "@Model.AjaxAttributes.data_ajax_complete"
+          data-ajax-begin = "@Model.AjaxAttributes.data_ajax_begin"
+          data-ajax-mode = "@Model.AjaxAttributes.data_ajax_mode"
+    >
+        @Html.Partial(Model.FilterPanelViewPath, Model.FilterPanelObjectModel)
+
+        <div class="col-md-offset-11 col-xs-offset-10">
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="@res.Content.txt_Search" />
+            </div>
+
+        </div>
+    </form>
+</div>

@@ -117,5 +117,13 @@ namespace FrmWork.Mvc.Controls.Grid
         /// One-based index of the last item in the paged subset.
         /// </value>
         int LastItemOnPage { get; }
+
+        string Area { get; set; }
+        string Action { get; set; }
+
+        string Controller
+        { get; set; }
+
+        object RouteValues { get; set; }
     }
 }
